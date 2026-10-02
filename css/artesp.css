@@ -1,0 +1,52 @@
+/* Plano Estratégico do CCM — moldura reveal.js com a identidade ARTESP.
+   Os estilos de cada slide são inline no HTML; aqui só o que o formato
+   de origem assumia como padrão e o que o reveal.js precisa deixar de impor. */
+
+html, body { background: #141414; }
+
+.reveal { font-family: 'Inter', Arial, sans-serif; color: #141414; }
+.reveal .slides { text-align: left; }
+.reveal .slides > section,
+.reveal .slides > section > section { padding: 0; top: 0; }
+
+/* O slide: lona fixa de 1920×1080, como no formato de origem. */
+.sl {
+  position: relative;
+  width: 1920px;
+  height: 1080px;
+  box-sizing: border-box;
+  overflow: hidden;
+  isolation: isolate; /* permite z-index:-1 no fundo decorativo sem sumir atrás do slide */
+}
+.sl * { box-sizing: border-box; }
+
+/* Padrões tipográficos do formato de origem. */
+.sl h1, .sl h2, .sl h3, .sl p, .sl ul, .sl ol, .sl li { margin: 0; }
+.sl h1 { font-size: 96px; font-weight: 600; line-height: 1.1; }
+.sl h2 { font-size: 64px; font-weight: 600; line-height: 1.15; }
+.sl h3 { font-size: 44px; font-weight: 600; line-height: 1.2; }
+.sl p  { font-size: 32px; font-weight: 400; line-height: 1.4; }
+.sl h1, .sl h2, .sl h3 { text-transform: none; letter-spacing: normal; }
+.sl ul, .sl ol { padding-left: 1.1em; }
+.sl li { margin: 0.2em 0; line-height: inherit; }
+.sl b { font-weight: 700; }
+
+/* Tabelas: células com régua e espaçamento do formato de origem. */
+.sl table { border-collapse: collapse; width: 100%; }
+.sl th, .sl td { padding: 0.35em 0.6em; border-bottom: 1px solid #E2E2E2; vertical-align: top; }
+.sl th { font-weight: 600; }
+.sl tr:last-child td { border-bottom: none; }
+
+/* Imagens e ícones sem as margens e bordas que o reveal.js acrescenta. */
+.reveal .sl img { margin: 0; border: 0; box-shadow: none; max-width: none; max-height: none; }
+.sl svg.ic { display: block; }
+
+/* Moldura do reveal.js em vermelho ARTESP. */
+.reveal .controls { color: #D32F2F; }
+.reveal .progress { height: 4px; color: #D32F2F; }
+.reveal .slide-number { background: transparent; color: #8A8A8A; font-family: 'Inter', Arial, sans-serif; font-size: 14px; right: auto; left: 16px; bottom: 8px; }
+
+/* Impressão em PDF (?print-pdf): uma página por slide, sem moldura. */
+@media print {
+  .reveal .controls, .reveal .progress, .reveal .slide-number { display: none !important; }
+}
