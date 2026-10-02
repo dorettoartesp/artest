@@ -14,6 +14,8 @@
     "modernizacao",
     "ecossistema",
     "producao",
+    "portal-ccm",
+    "dados-abertos",
     "a-caminho",
     "software-livre",
     "plano-coleta",
@@ -22,7 +24,6 @@
     "tr-apoio-numeros",
     "tr-mits",
     "tr-reforma",
-    "tr-reforma-numeros",
     "poc",
     "parte2",
     "objetivo1",
@@ -37,8 +38,9 @@
     "objetivo4",
     "articulacao",
     "decisoes",
+    "anexo",
     "fecho",
-    "anexo"
+    "aplicacoes-links"
   ],
   "sections": {
     "s1": {
@@ -58,7 +60,7 @@
       "start": "decisoes"
     },
     "s5": {
-      "description": "Anexo: a arquitetura proposta em quatro níveis.",
+      "description": "Anexos: arquitetura em quatro níveis, documentos e aplicações.",
       "start": "anexo"
     }
   },

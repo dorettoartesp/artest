@@ -14,6 +14,7 @@ Todo o resto (flex, grid, estilos inline) é CSS comum e passa sem alteração.
 import json
 import re
 import sys
+from html.parser import HTMLParser
 from pathlib import Path
 
 SRC = Path(sys.argv[1]) if len(sys.argv) > 1 else Path("deck")
@@ -111,6 +112,36 @@ def icon(tag):
             % (style, body))
 
 
+class _Balance(HTMLParser):
+    """Confere se as tags de um slide fecham na ordem em que abrem."""
+    VOID = {"img", "br", "hr", "meta", "link", "line", "path", "polygon", "polyline", "circle", "ellipse", "rect"}
+
+    def __init__(self):
+        super().__init__()
+        self.stack, self.errors = [], []
+
+    def handle_starttag(self, tag, attrs):
+        if tag not in self.VOID:
+            self.stack.append(tag)
+
+    def handle_startendtag(self, tag, attrs):
+        pass
+
+    def handle_endtag(self, tag):
+        if self.stack and self.stack[-1] == tag:
+            self.stack.pop()
+        else:
+            self.errors.append(tag)
+
+
+def check_balance(sid, html):
+    p = _Balance()
+    p.feed(html)
+    if p.stack or p.errors:
+        raise SystemExit("slide %s: tags desbalanceadas — abertas sem fechar %s; fechadas fora de ordem %s"
+                         % (sid, p.stack, p.errors))
+
+
 def convert(html):
     # elementos próprios do formato de origem
     html = re.sub(r'<x-connector\b[^>]*>\s*</x-connector>', lambda m: connector(m.group(0)), html)
@@ -141,7 +172,9 @@ def main():
     slides = []
     for sid in deck["order"]:
         f = SRC / "project" / "slides" / ("%s.html" % sid)
-        slides.append(convert(f.read_text(encoding="utf-8")))
+        src = f.read_text(encoding="utf-8")
+        check_balance(sid, src)
+        slides.append(convert(src))
     tpl = (OUT.parent / "template.html").read_text(encoding="utf-8")
     page = tpl.replace("{{TITLE}}", title).replace("{{SLIDES}}", "".join(slides))
     OUT.write_text(page, encoding="utf-8")
