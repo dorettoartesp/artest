@@ -1,28 +1,27 @@
 .DEFAULT_GOAL := help
+.PHONY: help build serve shots status
 
-.PHONY: help install dev build export clean status
+CHROME ?= google-chrome
+SITE   := site
+SHOTS  := output/shots
 
-help: ## Exibe a lista de comandos disponíveis
-	@echo ""
-	@echo "Comandos disponíveis no Makefile:"
-	@echo ""
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-12s\033[0m %s\n", $$1, $$2}'
-	@echo ""
+help: ## Lista os comandos
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-8s\033[0m %s\n", $$1, $$2}'
 
-install: ## Instala as dependências do projeto via npm
-	npm install
+build: ## Gera site/index.html a partir de deck/ (fonte do conteúdo)
+	python3 tools/build-site.py deck $(SITE)/index.html
 
-dev: ## Inicia o servidor local de desenvolvimento com hot-reload (http://localhost:3030)
-	npm run dev
+serve: ## Serve o site localmente em http://localhost:8080
+	cd $(SITE) && python3 -m http.server 8080
 
-build: ## Compila a apresentação estática para publicação (gera pasta dist/)
-	npm run build
+shots: ## Renderiza todos os slides em PNG (output/shots/) para conferência
+	@mkdir -p $(SHOTS)
+	@n=$$(grep -c '<section data-transition' $(SITE)/index.html); i=0; \
+	while [ $$i -lt $$n ]; do \
+	  $(CHROME) --headless=new --disable-gpu --hide-scrollbars --no-sandbox --window-size=1920,1080 \
+	    --virtual-time-budget=6000 --screenshot=$(SHOTS)/$$(printf '%02d' $$i).png \
+	    "file://$(CURDIR)/$(SITE)/index.html#/$$i" >/dev/null 2>&1; i=$$((i+1)); done; \
+	echo "$$n slides em $(SHOTS)/"
 
-export: ## Exporta a apresentação em formato PDF (requer Playwright instalado)
-	npm run export
-
-clean: ## Remove a pasta compilada (dist/)
-	rm -rf dist
-
-status: ## Exibe o status do Git e do repositório
-	@git status
+status: ## git status
+	@git status --short

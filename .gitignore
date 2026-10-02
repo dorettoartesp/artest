@@ -1,9 +1,17 @@
-node_modules
-dist
 *.local
 .DS_Store
 
-# Ignore all user inputs/cloned repos, keep template files
+# Material de apoio: não versionar, salvo os arquivos de referência
 inputs/*
 !inputs/.gitkeep
 !inputs/README.md
+
+# Renderizações de conferência (make shots)
+output/shots/
+
+# Memória de trabalho: fica só local, não vai ao repositório público
+AGENTS.md
+MEMORIA-PLANO-ESTRATEGICO.md
+DESTAQUES-TRS-E-DIRETRIZES.md
+OBSERVACOES-DECK.md
+inventario-github-*.md

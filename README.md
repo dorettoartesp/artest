@@ -1,45 +1,36 @@
-# Apresentação Estratégica ARTESP (Slidev)
+# Plano Estratégico do CCM — ARTESP
 
-Este repositório contém a infraestrutura e os slides da apresentação institucional da ARTESP, construída com [Slidev](https://sli.dev/) e publicada automaticamente no **GitHub Pages**.
+Apresentação do plano estratégico do Centro de Controle Multimodal da ARTESP: o que foi feito desde 2021 e o que se propõe. Publicada no GitHub Pages como página estática, com [reveal.js](https://revealjs.com/) vendorizado — sem framework de build, sem `npm`.
 
-🔗 **Apresentação Online:** `https://dorettoartesp.github.io/artest/`
+**Site:** `https://dorettoartesp.github.io/artest/`
 
----
+## Como está organizado
 
-## 🚀 Como Executar Localmente
+| Pasta | O que é |
+|---|---|
+| `deck/` | **Fonte do conteúdo.** Um arquivo HTML por slide (`project/slides/<id>.html`) e o índice `project/deck.json` com a ordem. É uma cópia versionada do deck mantido como backup no claude.ai. |
+| `site/` | **O que o Pages serve.** `index.html` é gerado a partir de `deck/`; `css/artesp.css` é a moldura com a identidade ARTESP; `vendor/reveal/` é o reveal.js 5.1.0; `img/` tem as logos. |
+| `tools/build-site.py` | Conversor `deck/` → `site/index.html`. Troca os elementos próprios do formato de origem (`x-connector`, `x-shape`, `x-icon`) por SVG inline. |
+| `output/vN/` | Exportações versionadas: PDF e PPTX exportados do backup no claude.ai. |
+| `inputs/` | Material de apoio (TRs, planos, identidade visual). Ignorado pelo Git, salvo os arquivos de referência. |
+| `site/docs/` | PDFs publicados para download: apresentação (PDF e PPTX), os três termos de referência e o Plano de Coleta de Dados. |
 
-### Pré-requisitos
-- Node.js v20+ ou v22+
-- npm instalado
+Os arquivos de memória de trabalho (`AGENTS.md`, `MEMORIA-PLANO-ESTRATEGICO.md`, `DESTAQUES-TRS-E-DIRETRIZES.md`, `OBSERVACOES-DECK.md`) existem só localmente e estão no `.gitignore`: o repositório é público.
 
-### Instalação
+## Fluxo de trabalho
+
 ```bash
-make install   # ou npm install
+make build   # deck/ -> site/index.html
+make serve   # http://localhost:8080
+make shots   # um PNG por slide em output/shots/ (requer google-chrome)
 ```
 
-### Iniciar Servidor de Apresentação (com hot-reload)
-```bash
-make dev       # ou npm run dev
-```
-Acesse `http://localhost:3030` no navegador.
+Para alterar a apresentação, edite o slide em `deck/project/slides/` e rode `make build`. Cada slide é um `<section>` de 1920×1080 com estilos inline; `deck/project/deck.json` define a ordem.
 
-### Gerar Build Estática
-```bash
-make build     # ou npm run build
-```
-Os arquivos prontos para publicação serão gerados no diretório `dist/` com o prefixo `/artest/`.
+## Publicação
 
----
+O `push` em `main` publica `site/` no GitHub Pages pelo pipeline em `.github/workflows/deploy.yml`. O repositório é público: o site é público.
 
-## 📂 Como Adicionar Conteúdo de Apoio (`inputs/`)
+## Backup
 
-A pasta `inputs/` está configurada para receber materiais externos sem interferir no controle de versão Git:
-1. Clone repositórios necessários dentro de `inputs/` (`git clone ... inputs/repo-nome`).
-2. Copie relatórios, arquivos `.md`, notas ou documentos para `inputs/`.
-3. Utilize uma LLM para analisar os arquivos contidos em `inputs/` e estruturar ou editar o arquivo `slides.md`.
-
----
-
-## 🌐 Publicação Contínua (CI/CD)
-
-O pipeline do GitHub Actions (`.github/workflows/deploy.yml`) compila os slides e atualiza o GitHub Pages automaticamente a cada `git push` na branch `main`.
+O deck original está no claude.ai (tipo Slides) e permanece como backup; não é mais a fonte editada. As exportações feitas de lá ficam em `output/vN/`.
