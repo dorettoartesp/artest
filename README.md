@@ -14,18 +14,18 @@ Este repositório contém a infraestrutura e os slides da apresentação institu
 
 ### Instalação
 ```bash
-npm install
+make install   # ou npm install
 ```
 
 ### Iniciar Servidor de Apresentação (com hot-reload)
 ```bash
-npm run dev
+make dev       # ou npm run dev
 ```
 Acesse `http://localhost:3030` no navegador.
 
 ### Gerar Build Estática
 ```bash
-npm run build
+make build     # ou npm run build
 ```
 Os arquivos prontos para publicação serão gerados no diretório `dist/` com o prefixo `/artest/`.
 
