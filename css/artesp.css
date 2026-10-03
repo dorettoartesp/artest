@@ -42,8 +42,8 @@ html, body { background: #141414; }
 .sl svg.ic { display: block; }
 
 /* Moldura do reveal.js em vermelho ARTESP. */
-.reveal .controls { color: #D32F2F; }
-.reveal .progress { height: 4px; color: #D32F2F; }
+.reveal .controls { color: #E41C2E; }
+.reveal .progress { height: 4px; color: #E41C2E; }
 .reveal .slide-number { background: transparent; color: #8A8A8A; font-family: 'Inter', Arial, sans-serif; font-size: 14px; right: auto; left: 16px; bottom: 8px; }
 
 /* Impressão em PDF (?print-pdf): uma página por slide, sem moldura. */
