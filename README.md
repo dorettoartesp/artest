@@ -29,7 +29,13 @@ Para alterar a apresentação, edite o slide em `deck/project/slides/` e rode `m
 
 ## Publicação
 
-O `push` em `main` publica `site/` no GitHub Pages pelo pipeline em `.github/workflows/deploy.yml`. O repositório é público: o site é público.
+O GitHub Pages serve a branch **`gh-pages`**, que contém só o conteúdo de `site/`. Para publicar, depois de commitar em `main`:
+
+```bash
+make publish   # site/ -> branch gh-pages (git subtree) -> push
+```
+
+O pipeline em `.github/workflows/deploy.yml` faz o mesmo pelo GitHub Actions a cada `push` em `main`, mas depende de o Actions estar disponível na conta; a branch `gh-pages` funciona sem ele. O repositório é público: o site é público.
 
 ## Backup
 

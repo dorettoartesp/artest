@@ -23,5 +23,11 @@ shots: ## Renderiza todos os slides em PNG (output/shots/) para conferência
 	    "file://$(CURDIR)/$(SITE)/index.html#/$$i" >/dev/null 2>&1; i=$$((i+1)); done; \
 	echo "$$n slides em $(SHOTS)/"
 
+publish: ## Publica site/ na branch gh-pages (origem do GitHub Pages)
+	git subtree split --prefix site -b gh-pages
+	git push -f origin gh-pages
+	git branch -D gh-pages
+	@echo "Publicado: https://dorettoartesp.github.io/artest/ (o build do Pages leva cerca de um minuto)"
+
 status: ## git status
 	@git status --short
