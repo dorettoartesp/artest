@@ -1229,6 +1229,19 @@
 
 </div>
 </div>
+<button class="ajuda-btn" type="button" aria-label="Ajuda de navegação" aria-expanded="false" aria-controls="ajuda">?</button>
+<div class="ajuda" id="ajuda" role="dialog" aria-label="Como navegar" hidden>
+<h2>Como navegar</h2>
+<table>
+<tr><td><kbd>→</kbd> <kbd>←</kbd> <kbd>Espaço</kbd></td><td>avançar e voltar</td></tr>
+<tr><td><kbd>G</kbd> número <kbd>Enter</kbd></td><td>ir ao slide (o número aparece no canto inferior esquerdo)</td></tr>
+<tr><td><kbd>Esc</kbd></td><td>visão geral de todos os slides; clique em um para abrir</td></tr>
+<tr><td><kbd>F</kbd></td><td>tela cheia (<kbd>Esc</kbd> sai)</td></tr>
+<tr><td><kbd>B</kbd></td><td>escurecer a tela durante uma pausa</td></tr>
+<tr><td><kbd>?</kbd></td><td>abre e fecha esta ajuda</td></tr>
+</table>
+<p>Também é possível clicar nas setas no canto inferior direito.</p>
+</div>
 <script src="vendor/reveal/reveal.js"></script>
 <script>
 Reveal.initialize({
@@ -1241,6 +1254,7 @@ Reveal.initialize({
   hash: true,
   controls: true,
   controlsTutorial: false,
+  help: false,
   progress: true,
   slideNumber: 'c/t',
   transition: 'fade',
@@ -1249,6 +1263,19 @@ Reveal.initialize({
   pdfMaxPagesPerSlide: 1,
   pdfSeparateFragments: false
 });
+(function () {
+  var btn = document.querySelector('.ajuda-btn');
+  var box = document.getElementById('ajuda');
+  function abrir(sim) {
+    box.hidden = !sim;
+    btn.setAttribute('aria-expanded', sim ? 'true' : 'false');
+  }
+  btn.addEventListener('click', function () { abrir(box.hidden); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === '?') { e.preventDefault(); e.stopPropagation(); abrir(box.hidden); }
+    else if (e.key === 'Escape' && !box.hidden) { e.preventDefault(); e.stopPropagation(); abrir(false); }
+  }, true);
+})();
 </script>
 </body>
 </html>
